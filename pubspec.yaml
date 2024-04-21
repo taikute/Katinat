@@ -1,0 +1,40 @@
+name: katinat
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.3.3 <4.0.0'
+
+dependencies:
+  carousel_slider: ^4.2.1
+  firebase_core: ^2.30.0
+  flutter:
+    sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.0
+
+flutter_icons:
+  android: true
+  image_path_android: assets/images/logo.png
+
+flutter_native_splash:
+  color: 'ffffff'
+  image: assets/images/logo.png
+
+dev_dependencies:
+  flutter_lints: ^3.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icons/
+    - assets/images/
+    - assets/files/
+  fonts:
+    - family: MainFont
+      fonts:
+        - asset: assets/fonts/MainFont.ttf
+

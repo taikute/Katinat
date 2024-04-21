@@ -1,0 +1,34 @@
+{
+    "products": [
+        {
+            "name": "Bo Gia Dua Non",
+            "price": "65000",
+            "image": "https://i.postimg.cc/66FD66QV/bo-dua.jpg"
+        },
+        {
+            "name": "Den Da",
+            "price": "55000",
+            "image": "https://i.postimg.cc/qBmv13jJ/den-da.jpg"
+        },
+        {
+            "name": "Dran",
+            "price": "50000",
+            "image": "https://i.postimg.cc/J0d70fGD/dran.jpg"
+        },
+        {
+            "name": "Dua Non",
+            "price": "60000",
+            "image": "https://i.postimg.cc/8PjP9z0h/dua-non.jpg"
+        },
+        {
+            "name": "Olong Hoang Cuc",
+            "price": "70000",
+            "image": "https://i.postimg.cc/fTpTNQG1/olong.jpg"
+        },
+        {
+            "name": "Tra Sua Chom Chom",
+            "price": "69000",
+            "image": "https://i.postimg.cc/sx2DVjDC/ts-chom-chom.jpg"
+        }
+    ]
+}
