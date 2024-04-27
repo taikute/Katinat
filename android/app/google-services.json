@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "360183955062",
+    "firebase_url": "https://katinat-897d7-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "katinat-897d7",
+    "storage_bucket": "katinat-897d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360183955062:android:befb5d73a02cb287bb2957",
+        "android_client_info": {
+          "package_name": "com.example.katinat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByimoQHz7FApXUHegzaKK075EAXCKhQAM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

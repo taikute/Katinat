@@ -1,21 +1,28 @@
+import 'package:firebase_database/firebase_database.dart';
+
 class ProductModel {
-  String? name;
-  int? price;
-  String? image;
+  final String key;
+  final String name;
+  final int price;
+  final String image;
+  String? des;
 
   ProductModel({
-    this.name,
-    this.price,
-    this.image,
+    required this.key,
+    required this.name,
+    required this.price,
+    required this.image,
+    this.des,
   });
 
-  ProductModel.fromMap(Map<String, dynamic> map) {
-    name = map['name'];
-    price = int.parse(map['price']);
-    image = map['image'];
+  factory ProductModel.fromSnapShot(DataSnapshot snapshot) {
+    final map = snapshot.value as Map;
+    return ProductModel(
+      key: snapshot.key!,
+      name: map['name'] as String,
+      des: map['des'] != null ? map['des'] as String : null,
+      image: map['image'] as String,
+      price: map['price'] as int,
+    );
   }
-
-  @override
-  String toString() =>
-      'ProductModel(name: $name, price: $price, image: $image)';
 }

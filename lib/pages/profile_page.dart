@@ -1,13 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Profile Page'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const TabBar(
+          labelColor: Colors.black,
+          tabs: [
+            Tab(
+              text: 'ALO',
+            )
+          ],
+        ),
+      ),
+      body: Container(
+        color: Colors.red,
+      ),
     );
   }
 }

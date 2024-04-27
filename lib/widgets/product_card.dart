@@ -1,5 +1,7 @@
-import '../models/product_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import '../models/product_model.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductModel product;
@@ -18,8 +20,8 @@ class ProductCard extends StatelessWidget {
                 flex: 3,
                 child: SizedBox(
                   width: double.infinity,
-                  child: Image.network(
-                    product.image!,
+                  child: CachedNetworkImage(
+                    imageUrl: product.image,
                     fit: BoxFit.cover,
                   ),
                 ),
