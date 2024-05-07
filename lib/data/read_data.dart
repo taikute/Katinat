@@ -1,5 +1,7 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 import '../models/product_model.dart';
 
@@ -11,12 +13,20 @@ class ReadData {
   }
 
   static Future<List<String>> fetchCarouselImages() async {
-    List<String> list = [];
-    var listResult =
-        await FirebaseStorage.instance.ref('images/carousel_images').listAll();
-    for (var item in listResult.items) {
-      list.add(await item.getDownloadURL());
+    final ref = FirebaseDatabase.instance.ref('carousel_urls');
+    final snapshot = await ref.get();
+    final snapshotValue = snapshot.value;
+    if (snapshotValue is List) {
+      return snapshotValue.cast<String>();
     }
-    return list;
+    return [];
+  }
+
+  static Future<String> getDeviceId() async {
+    if (Platform.isAndroid) {
+      final info = await DeviceInfoPlugin().androidInfo;
+      return info.id;
+    }
+    return '';
   }
 }

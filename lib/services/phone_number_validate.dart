@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 class PhoneNumberValidate {
   static const apiKey = 'NF1cWHvZEemgLOh1FvBRew==oTUefjvQwPnHxK8D';
   static const baseUrl = 'https://api.api-ninjas.com/v1/validatephone';
+
   static Future<bool> isValid(String phoneNumber) async {
     phoneNumber = phoneNumber.replaceFirst('0', '84');
     final url = Uri.parse('$baseUrl?number=$phoneNumber');
@@ -23,8 +24,7 @@ class PhoneNumberValidate {
         return false;
       }
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 }

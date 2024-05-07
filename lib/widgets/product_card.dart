@@ -1,5 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cached_network_image_builder/cached_network_image_builder.dart';
 import 'package:flutter/material.dart';
+import '../services/color_manager.dart';
+import '../services/currency_convert.dart';
 
 import '../models/product_model.dart';
 
@@ -9,63 +11,78 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        decoration: const BoxDecoration(
           color: Colors.black12,
-          child: Column(
-            children: [
-              Expanded(
-                flex: 3,
-                child: SizedBox(
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 3,
+              child: SizedBox(
                   width: double.infinity,
-                  child: CachedNetworkImage(
-                    imageUrl: product.image,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return Padding(
-                        padding: EdgeInsets.all(constraints.maxHeight / 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${product.name} (L)',
-                              style: TextStyle(
-                                fontSize: constraints.maxHeight / 5,
-                                height: 1,
-                                fontFamily: 'MainFont',
-                              ),
-                              maxLines: 2,
-                              softWrap: true,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              '${product.price} đ',
-                              style: TextStyle(
-                                fontSize: constraints.maxHeight / 5,
-                                height: 1,
-                                fontFamily: 'MainFont',
-                              ),
-                            ),
-                          ],
-                        ),
+                  child: CachedNetworkImageBuilder(
+                    url: product.image,
+                    builder: (image) {
+                      return Image.file(
+                        image,
+                        fit: BoxFit.cover,
                       );
                     },
-                  ),
+                  )),
+            ),
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 4, top: 2, right: 4),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            product.name,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              height: 1,
+                              fontSize: constraints.maxHeight / 4,
+                              color: ColorManager.primaryColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                CurrencyConvert.toVND(product.price),
+                                style: TextStyle(
+                                  height: 1,
+                                  fontSize: constraints.maxHeight / 4,
+                                  color: ColorManager.primaryColor,
+                                ),
+                              ),
+                              const Icon(
+                                Icons.add_circle_outline_outlined,
+                                color: ColorManager.primaryColor,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -36,7 +36,10 @@ class DefaultFirebaseOptions {
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -50,22 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyByimoQHz7FApXUHegzaKK075EAXCKhQAM',
-    appId: '1:360183955062:android:befb5d73a02cb287bb2957',
-    messagingSenderId: '360183955062',
-    projectId: 'katinat-897d7',
-    databaseURL: 'https://katinat-897d7-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'katinat-897d7.appspot.com',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCdAA6D6w5PRhuexwSprPWpb3jX4ZsiJb4',
-    appId: '1:360183955062:web:b7ca1b892ed3626bbb2957',
-    messagingSenderId: '360183955062',
-    projectId: 'katinat-897d7',
-    authDomain: 'katinat-897d7.firebaseapp.com',
-    databaseURL: 'https://katinat-897d7-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'katinat-897d7.appspot.com',
-    measurementId: 'G-ZRC57S46C2',
+    apiKey: 'AIzaSyDuxyklrG6T_lCV3xz07u94kkke8I3ss_8',
+    appId: '1:183772323721:android:e76f23d712842d3b6a0b58',
+    messagingSenderId: '183772323721',
+    projectId: 'katinat-4cdd5',
+    databaseURL: 'https://katinat-4cdd5-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'katinat-4cdd5.appspot.com',
   );
 }
