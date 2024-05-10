@@ -1,6 +1,6 @@
-import 'package:cached_network_image_builder/cached_network_image_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:katinat/widgets/center_loading.dart';
+import '../services/color_manager.dart';
+import 'center_loading.dart';
 
 class Avata extends StatelessWidget {
   final String? url;
@@ -23,15 +23,21 @@ class Avata extends StatelessWidget {
                 fit: BoxFit.cover,
               );
             }
-            return CachedNetworkImageBuilder(
-              url: url!,
-              builder: (image) {
-                return Image.file(
-                  image,
-                  fit: BoxFit.cover,
-                );
+            return Image.network(
+              url!,
+              fit: BoxFit.cover,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress != null) {
+                  return CircularProgressIndicator(
+                    value: loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!,
+                    color: ColorManager.primaryColor,
+                    backgroundColor: Colors.black12,
+                    strokeWidth: 2,
+                  );
+                }
+                return child;
               },
-              placeHolder: const AvataLoading(),
             );
           },
         ),

@@ -1,9 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:katinat/models/product_detail_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/product_model.dart';
+import '../services/prefs_helper.dart';
 
 class ReadData {
   static Future<List<ProductModel>> fetchProducts() async {
@@ -20,6 +24,16 @@ class ReadData {
       return snapshotValue.cast<String>();
     }
     return [];
+  }
+
+  static Future<List<ProductDetailModel>> fetchProductFromPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = prefs.getString(PrefsHelper.details);
+    if (jsonString == null) {
+      return [];
+    }
+    final maps = await jsonDecode(jsonString) as List;
+    return maps.map((map) => ProductDetailModel.fromMap(map)).toList();
   }
 
   static Future<String> getDeviceId() async {

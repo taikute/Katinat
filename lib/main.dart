@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:katinat/services/init_data.dart';
+import 'package:flutter/services.dart';
+import 'package:katinat/pages/cart_folder/cart_page.dart';
+import 'package:katinat/services/prefs_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
 import 'pages/account_folder/account_page.dart';
-import 'pages/coupon_page.dart';
 import 'pages/home_folder/home_page.dart';
 import 'pages/login_folder/login_page.dart';
 import 'pages/order_folder/order_page.dart';
@@ -15,9 +17,20 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await InitData.init();
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      systemNavigationBarColor: ColorManager.primaryColor,
+      statusBarColor: ColorManager.primaryColor,
+    ),
+  );
+
+  final prefs = await SharedPreferences.getInstance();
+  prefs.remove(PrefsHelper.details);
+
   runApp(
     MaterialApp(
+      color: ColorManager.primaryColor,
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: 'MainFont',
@@ -30,6 +43,7 @@ void main() async {
           titleTextStyle: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
+            fontSize: 30,
           ),
         ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
@@ -38,6 +52,9 @@ void main() async {
           unselectedItemColor: Colors.white,
         ),
         inputDecorationTheme: InputDecorationTheme(
+          labelStyle: const TextStyle(
+            color: ColorManager.primaryColor,
+          ),
           floatingLabelStyle: const TextStyle(
             color: ColorManager.primaryColor,
             fontWeight: FontWeight.bold,
@@ -54,11 +71,11 @@ void main() async {
             ),
           ),
         ),
-        switchTheme: const SwitchThemeData(
-          thumbColor: MaterialStatePropertyAll(ColorManager.primaryColor),
-          trackColor: MaterialStatePropertyAll(ColorManager.secondaryColor),
-          trackOutlineColor: MaterialStatePropertyAll(Colors.white),
-        ),
+        // switchTheme: const SwitchThemeData(
+        //   thumbColor: MaterialStatePropertyAll(ColorManager.primaryColor),
+        //   trackColor: MaterialStatePropertyAll(ColorManager.secondaryColor),
+        //   trackOutlineColor: MaterialStatePropertyAll(Colors.white),
+        // ),
         buttonTheme: const ButtonThemeData(
           buttonColor: ColorManager.secondaryColor,
         ),
@@ -68,7 +85,7 @@ void main() async {
         '/order': (context) => const MainWidget(index: 1),
         '/account': (context) => const MainWidget(index: 2),
         '/login': (context) => const LoginPage(),
-        '/coupon': (context) => const CouponPage(),
+        '/cart': (context) => const CartPage(),
       },
       home: const MainWidget(),
       debugShowCheckedModeBanner: false,
@@ -90,6 +107,7 @@ class MainWidget extends StatefulWidget {
 class _MainWidgetState extends State<MainWidget> {
   int selectedIndex = 0;
   bool isSwitched = false;
+
   static const List<Widget> _pageOptions = [
     HomePage(),
     OrderPage(),
@@ -109,22 +127,14 @@ class _MainWidgetState extends State<MainWidget> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('KATINAT'),
-        centerTitle: true,
-        titleTextStyle: const TextStyle(
-          fontSize: 30,
-          fontWeight: FontWeight.bold,
-          //color: Colors.white,
-        ),
-        //backgroundColor: ColorManager.primaryColor,
         actions: [
-          Switch(
-            value: isSwitched,
-            onChanged: (value) {
-              setState(() {
-                isSwitched = !isSwitched;
-              });
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/cart');
             },
+            child: const Icon(Icons.shopping_cart),
           ),
+          const SizedBox(width: 10),
         ],
       ),
       body: _pageOptions.elementAt(selectedIndex),

@@ -2,7 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:katinat/services/cloudinary_helper.dart';
+import '../../services/cloudinary_helper.dart';
 import '../../widgets/avata.dart';
 import 'email_verify_page.dart';
 import '../../models/user_model.dart';
@@ -89,6 +89,9 @@ class _ProfileWidgetState extends State<ProfileWidget> {
         children: [
           GestureDetector(
             onTap: () async {
+              if (avataUploading) {
+                return;
+              }
               final imageXFile = await pickImageFromGallery();
               if (imageXFile != null) {
                 setState(() {
@@ -115,7 +118,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           ),
           const SizedBox(height: 10),
           TextFormField(
-            initialValue: '0389653102',
+            initialValue: widget.user.phoneNumber,
             enabled: false,
             decoration: const InputDecoration(
               prefixIcon: Icon(Icons.phone),

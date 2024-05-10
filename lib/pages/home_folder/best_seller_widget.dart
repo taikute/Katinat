@@ -1,11 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:katinat/services/init_data.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import '../../data/read_data.dart';
 
 import '../../services/color_manager.dart';
 import '../../widgets/product_card.dart';
 
 class BestSellerWidget extends StatelessWidget {
+  static List<ProductCard> cards = [];
   const BestSellerWidget({super.key});
 
   @override
@@ -41,18 +43,35 @@ class BestSellerWidget extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         // Best Seller
-        CarouselSlider(
-          items: InitData.bestSellerProducts!.map((product) {
-            return ProductCard(product: product);
-          }).toList(),
-          options: CarouselOptions(
-            aspectRatio: 1.4,
-            viewportFraction: 0.45,
-            enlargeCenterPage: true,
-            enlargeFactor: 0.2,
-          ),
+        FutureBuilder(
+          future: fetchData(),
+          builder: (context, snapshot) {
+            return CarouselSlider(
+              items: cards,
+              options: CarouselOptions(
+                aspectRatio: 1.4,
+                viewportFraction: 0.45,
+                enlargeCenterPage: true,
+                enlargeFactor: 0.2,
+              ),
+            );
+          },
         ),
       ],
     );
+  }
+}
+
+Future<void> fetchData() async {
+  final cards = BestSellerWidget.cards;
+  if (cards.isNotEmpty) {
+    return;
+  }
+  final products = await ReadData.fetchProducts();
+  final bestSellerProducts =
+      products.where((product) => product.bestSeller == true).toList();
+  for (final product in bestSellerProducts) {
+    final fileInfo = await DefaultCacheManager().downloadFile(product.image);
+    cards.add(ProductCard(product: product, imageFile: fileInfo.file));
   }
 }

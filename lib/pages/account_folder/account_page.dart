@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:katinat/pages/order_folder/order_detail_page.dart';
 
 import '../../services/login_helper.dart';
 import '../../widgets/center_loading.dart';
@@ -65,8 +66,22 @@ class _AccountPageState extends State<AccountPage> {
                         LoginHelper.logout();
                       });
                     },
-                    child: const PrimaryButton(text: 'LOGOUT'),
+                    child: const PrimaryButton(text: 'Logout'),
                   ),
+                  const SizedBox(height: 10),
+                  PrimaryButton(
+                    text: 'Order history',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const OrderDetailPage();
+                          },
+                        ),
+                      );
+                    },
+                  )
                 ],
               ),
             );

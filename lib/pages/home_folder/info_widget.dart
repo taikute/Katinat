@@ -7,6 +7,7 @@ import '../../services/login_helper.dart';
 import '../../widgets/primary_button.dart';
 
 class InfoWidget extends StatefulWidget {
+  static UserModel? user;
   const InfoWidget({super.key});
 
   @override
@@ -34,26 +35,25 @@ class _InfoWidgetState extends State<InfoWidget> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: LoginHelper.curUser,
+      future: updateUser(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot.connectionState == ConnectionState.done) {
           return InfoBuild(
             greeting: greeting,
-            loading: true,
-          );
-        }
-        if (!snapshot.hasData) {
-          return InfoBuild(
-            greeting: greeting,
+            user: InfoWidget.user,
           );
         }
         return InfoBuild(
           greeting: greeting,
-          user: snapshot.data,
+          loading: true,
         );
       },
     );
   }
+}
+
+Future<void> updateUser() async {
+  InfoWidget.user = await LoginHelper.curUser;
 }
 
 class InfoBuild extends StatelessWidget {
@@ -113,17 +113,9 @@ class InfoBuild extends StatelessWidget {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/coupon');
-                  },
-                  child: const Icon(Icons.discount_outlined, size: 30),
-                ),
+                const Icon(Icons.discount_outlined, size: 30),
                 const SizedBox(width: 5),
-                GestureDetector(
-                  onTap: () {},
-                  child: const Icon(Icons.notifications_none, size: 30),
-                ),
+                const Icon(Icons.notifications_none, size: 30),
               ],
             ),
           ),

@@ -18,13 +18,7 @@ class HomePage extends StatelessWidget {
           CarouselWidget(),
           SizedBox(height: 10),
           BestSellerWidget(),
-          Text(
-            'Footer',
-            style: TextStyle(
-              fontSize: 100,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          SizedBox(height: 50),
         ],
       ),
     );

@@ -1,32 +1,61 @@
-import 'package:cached_network_image_builder/cached_network_image_builder.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:katinat/services/init_data.dart';
-import 'package:katinat/widgets/center_loading.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import '../../data/read_data.dart';
+import '../../widgets/center_loading.dart';
 
 class CarouselWidget extends StatelessWidget {
+  static List<Widget> items = [];
   const CarouselWidget({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-      items: InitData.carouselImages!.map((url) {
-        return CachedNetworkImageBuilder(
-          url: url,
-          builder: (image) {
-            return Image.file(
-              image,
-              fit: BoxFit.cover,
-            );
-          },
-          placeHolder: const CenterLoading(),
+    return FutureBuilder(
+      future: fetchData(),
+      builder: (buildContext, snapshot) {
+        if (items.isEmpty) {
+          return const CarouselPlaceholder();
+        }
+        return CarouselSlider(
+          items: items,
+          options: CarouselOptions(
+            autoPlay: true,
+            viewportFraction: 1,
+          ),
         );
-      }).toList(),
+      },
+    );
+  }
+}
+
+class CarouselPlaceholder extends StatelessWidget {
+  const CarouselPlaceholder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CarouselSlider(
+      items: [Container(color: Colors.black12, child: const CenterLoading())],
       options: CarouselOptions(
         viewportFraction: 1,
-        autoPlay: true,
+      ),
+    );
+  }
+}
+
+Future<void> fetchData() async {
+  final items = CarouselWidget.items;
+  if (items.isNotEmpty) {
+    return;
+  }
+  final urls = await ReadData.fetchCarouselImages();
+  for (final url in urls) {
+    final fileInfo = await DefaultCacheManager().downloadFile(url);
+    items.add(
+      Image.file(
+        fileInfo.file,
+        fit: BoxFit.cover,
       ),
     );
   }
