@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
-import 'package:katinat/data/read_data.dart';
-import 'package:katinat/pages/cart_folder/order_confirm_page.dart';
-import 'package:katinat/services/color_manager.dart';
-import 'package:katinat/services/snack_bar_helper.dart';
-import 'package:katinat/widgets/product_detail.dart';
+import '../../data/read_data.dart';
+import 'order_confirm_page.dart';
+import '../../services/color_manager.dart';
+import '../../services/snack_bar_helper.dart';
+import '../../widgets/product_detail.dart';
 
-import 'package:katinat/models/product_detail_model.dart';
-import 'package:katinat/widgets/center_loading.dart';
+import '../../models/product_detail_model.dart';
+import '../../widgets/center_loading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../services/currency_convert.dart';

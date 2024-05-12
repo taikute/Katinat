@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:katinat/services/color_manager.dart';
+import 'color_manager.dart';
 
 class SnackBarHelper {
   static void hideAndShowSimpleSnackBar(BuildContext context, String content) {

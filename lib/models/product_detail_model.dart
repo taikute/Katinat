@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:katinat/models/product_model.dart';
-import 'package:katinat/services/currency_convert.dart';
+import 'product_model.dart';
+import '../services/currency_convert.dart';
 
 class ProductDetailModel {
   final ProductModel product;
@@ -27,19 +27,19 @@ class ProductDetailModel {
     if (toppings.isNotEmpty) {
       stringBuilder += 'Topping: ';
       stringBuilder += toppings.map((topping) => topping.name).join(', ');
-      stringBuilder += '\n';
     }
     if (sugarLevel.index != 0) {
+      stringBuilder += '\n';
       stringBuilder += 'Sugar: ';
       stringBuilder += sugarLevel.name;
-      stringBuilder += '\n';
     }
     if (iceLevel.index != 0) {
+      stringBuilder += '\n';
       stringBuilder += 'Ice: ';
       stringBuilder += iceLevel.name;
-      stringBuilder += '\n';
     }
     if (note != null) {
+      stringBuilder += '\n';
       stringBuilder += 'Note: ';
       stringBuilder += note!;
     }

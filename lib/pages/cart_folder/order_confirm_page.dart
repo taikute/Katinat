@@ -1,13 +1,14 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:katinat/pages/order_folder/order_detail_page.dart';
-import 'package:katinat/services/color_manager.dart';
-import 'package:katinat/services/currency_convert.dart';
-import 'package:katinat/services/login_helper.dart';
-import 'package:katinat/services/prefs_helper.dart';
-import 'package:katinat/widgets/center_loading.dart';
-import 'package:katinat/widgets/primary_button.dart';
+import '../order_folder/order_history_page.dart';
+import '../../services/color_manager.dart';
+import '../../services/currency_convert.dart';
+import '../../services/login_helper.dart';
+import '../../services/prefs_helper.dart';
+import '../../services/snack_bar_helper.dart';
+import '../../widgets/center_loading.dart';
+import '../../widgets/primary_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/product_detail_model.dart';
@@ -35,9 +36,12 @@ class _OrderConfirmPageState extends State<OrderConfirmPage> {
   int get totalQuantity => details
       .map((e) => e.quantity)
       .fold(0, (previousValue, element) => previousValue += element);
+
   final addressDetailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    String? locationName;
     return Scaffold(
       appBar: AppBar(
         title: const Text('ORDER CONFIRM'),
@@ -46,11 +50,13 @@ class _OrderConfirmPageState extends State<OrderConfirmPage> {
         future: Geolocator.isLocationServiceEnabled(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return const CenterLoading();
+            return const CenterLoading(
+              text: 'Check location service...',
+            );
           }
           final enabled = snapshot.data!;
           if (!enabled) {
-            return const Text('Location services are disabled');
+            return reloadButton('Location services are disabled');
           }
           return FutureBuilder(
             future: Future<LocationPermission>(
@@ -64,7 +70,9 @@ class _OrderConfirmPageState extends State<OrderConfirmPage> {
             ),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return const CenterLoading();
+                return const CenterLoading(
+                  text: 'Check permission...',
+                );
               }
               final permission = snapshot.data!;
               if (permission == LocationPermission.denied) {
@@ -81,7 +89,9 @@ class _OrderConfirmPageState extends State<OrderConfirmPage> {
                 ),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return const CenterLoading();
+                    return const CenterLoading(
+                      text: 'Get location...',
+                    );
                   }
                   final location = snapshot.data!;
                   return SingleChildScrollView(
@@ -98,8 +108,8 @@ class _OrderConfirmPageState extends State<OrderConfirmPage> {
                               if (!snapshot.hasData) {
                                 return const Text('Loading...');
                               }
-                              String locationName = snapshot.data!;
-                              return Text(locationName);
+                              locationName = snapshot.data!;
+                              return Text(locationName!);
                             },
                           ),
                           //const Text('Address placeholder'),
@@ -217,6 +227,15 @@ class _OrderConfirmPageState extends State<OrderConfirmPage> {
                 );
               }
             } else {
+              if (locationName == null) {
+                if (!context.mounted) return;
+                SnackBarHelper.hideAndShowSimpleSnackBar(
+                    context, 'Waiting for location tracking...');
+                setState(() {
+                  orderProcessing = false;
+                });
+                return;
+              }
               final orderRef = FirebaseDatabase.instance
                   .ref('users/${user.phoneNumber}/orders');
 
@@ -226,6 +245,14 @@ class _OrderConfirmPageState extends State<OrderConfirmPage> {
               final detailRef = curOrderRef.child('details');
 
               await curOrderRef.child('price').set(tempPrice + 20000);
+              await curOrderRef
+                  .child('create_time')
+                  .set(DateTime.now().toString());
+              String address = locationName!;
+              if (addressDetailController.text.isNotEmpty) {
+                address = '[${addressDetailController.text}] $address';
+              }
+              await curOrderRef.child('address').set(address);
               await detailRef.set(details.map((detail) {
                 return {
                   'key': detail.product.key,
@@ -243,7 +270,7 @@ class _OrderConfirmPageState extends State<OrderConfirmPage> {
             Navigator.pop(context);
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
-                return const OrderDetailPage();
+                return const OrderHistoryPage();
               },
             ));
           },

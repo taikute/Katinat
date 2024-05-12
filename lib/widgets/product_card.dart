@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/file.dart';
-import 'package:katinat/models/product_detail_model.dart';
+import '../models/product_detail_model.dart';
 
 import '../models/product_model.dart';
 import '../services/color_manager.dart';

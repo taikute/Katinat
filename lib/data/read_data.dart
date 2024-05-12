@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:katinat/models/product_detail_model.dart';
+import '../models/product_detail_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/product_model.dart';

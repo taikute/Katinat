@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:katinat/data/read_data.dart';
-import 'package:katinat/models/product_detail_model.dart';
-import 'package:katinat/services/color_manager.dart';
-import 'package:katinat/services/currency_convert.dart';
-import 'package:katinat/services/prefs_helper.dart';
-import 'package:katinat/services/snack_bar_helper.dart';
+import '../data/read_data.dart';
+import '../models/product_detail_model.dart';
+import '../services/color_manager.dart';
+import '../services/currency_convert.dart';
+import '../services/prefs_helper.dart';
+import '../services/snack_bar_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/product_model.dart';

@@ -41,6 +41,19 @@ class _ProfileWidgetState extends State<ProfileWidget> {
       SnackBarHelper.hideAndShowSimpleSnackBar(context, 'Enter email!');
       return;
     }
+    final userRef = FirebaseDatabase.instance.ref('users');
+    final userSnapshot = await userRef.get();
+    if (!mounted) return;
+    for (final userChildSnapshot in userSnapshot.children) {
+      final emailSnapshot = userChildSnapshot.child('email');
+      if (emailSnapshot.exists) {
+        final emailValue = emailSnapshot.value! as String;
+        if (emailValue == email) {
+          SnackBarHelper.hideAndShowSimpleSnackBar(context, 'Email exists!');
+          return;
+        }
+      }
+    }
     if (!EmailValidator.validate(email)) {
       SnackBarHelper.hideAndShowSimpleSnackBar(context, 'Email invalid!');
       return;
@@ -149,6 +162,16 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       child: const VerifyButton(),
                     )
                   : null,
+            ),
+          ),
+          Visibility(
+            visible: !isEmailVerified,
+            child: Text(
+              '*note: add email to help you reset your password ',
+              style: TextStyle(
+                color: Colors.red[300],
+                fontStyle: FontStyle.italic,
+              ),
             ),
           ),
         ],

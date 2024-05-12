@@ -2,6 +2,7 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'forgot_password_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:text_form_field_validator/text_form_field_validator.dart';
 
@@ -198,6 +199,26 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(height: 20),
+            Visibility(
+              visible: state == 'LOGIN',
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const ForgotPasswordPage();
+                    },
+                  ));
+                },
+                child: const Text(
+                  'Forgotten your password?',
+                  style: TextStyle(
+                    fontSize: 16,
+                    decoration: TextDecoration.underline,
+                    color: ColorManager.primaryColor,
+                  ),
+                ),
+              ),
+            ),
             GestureDetector(
               onTap: () {
                 setState(() {

@@ -1,9 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:katinat/pages/cart_folder/cart_page.dart';
-import 'package:katinat/services/prefs_helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'pages/cart_folder/cart_page.dart';
 
 import 'firebase_options.dart';
 import 'pages/account_folder/account_page.dart';
@@ -25,8 +23,9 @@ void main() async {
     ),
   );
 
-  final prefs = await SharedPreferences.getInstance();
-  prefs.remove(PrefsHelper.details);
+  // Only testing
+  // final prefs = await SharedPreferences.getInstance();
+  // prefs.remove(PrefsHelper.details);
 
   runApp(
     MaterialApp(

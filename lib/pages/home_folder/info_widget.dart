@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../models/user_model.dart';
-import '../../widgets/avata.dart';
 
+import '../../models/user_model.dart';
 import '../../services/color_manager.dart';
 import '../../services/login_helper.dart';
+import '../../widgets/avata.dart';
 import '../../widgets/primary_button.dart';
 
 class InfoWidget extends StatefulWidget {

@@ -62,7 +62,11 @@ class _EmailVerifyPageState extends State<EmailVerifyPage> {
                   Navigator.pushReplacementNamed(context, '/account');
                   SnackBarHelper.hideAndShowSimpleSnackBar(
                       context, 'Email verified!');
-                } else {}
+                } else {
+                  if (!context.mounted) return;
+                  SnackBarHelper.hideAndShowSimpleSnackBar(
+                      context, 'Wrong otp!');
+                }
               },
             ),
             TextButton(
